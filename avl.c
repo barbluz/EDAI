@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "avl.h"
 
 arv* inicializa_arvore() {
@@ -8,7 +9,7 @@ arv* inicializa_arvore() {
     return A;
 }
 
-no* cria_no (int cod, bool op, int val ) {
+no* cria_no (int cod, int val ) {
     no* node = (no*)malloc(sizeof(no));
     node->codigo_cliente = cod;
     node->qt_op = 1;
@@ -20,13 +21,13 @@ no* cria_no (int cod, bool op, int val ) {
     return node;
 }
 
-void insere (avl* A, int cod, bool op, int val) {
-    no* x, y;
+void insere_no (arv* A, int cod, int op, int val) {
+    no *x, *y;
     x = A->raiz;
     y = x;
     while (x != NULL && x->codigo_cliente != cod) {
         y = x;
-        if (x->chave > cod) {
+        if (x->codigo_cliente > cod) {
             x = x->esq;
         }
         else {
@@ -34,12 +35,12 @@ void insere (avl* A, int cod, bool op, int val) {
         }
     }
     if (x == NULL) {
-        no* node = cria_no(cod, op, val);
+        no* node = cria_no(cod, val);
         if (A->raiz == NULL) {
             A->raiz = node;
         }
         else {
-            if (y->chave > cod) {
+            if (y->codigo_cliente > cod) {
                 y->esq = node;
             }
             else {
@@ -91,7 +92,7 @@ void balanceia (no* node) {
     }
 }
 
-void atualiza_valor (no* node, bool op, int val) {
+void atualiza_valor (no* node, int op, int val) {
     if (op == 0) {
         node->saldo += val;
     } 
@@ -101,7 +102,7 @@ void atualiza_valor (no* node, bool op, int val) {
     node->qt_op++;
 }
 
-int consulta (avl* A, int cod) {
+int consulta_no (arv* A, int cod) {
     if (A->raiz == NULL) {
         return 0;
     } else {
@@ -170,4 +171,13 @@ void rot_dir (no* a) {
     a->esq = b->dir;
     a->pai = b;
     b->dir = a;
+}
+
+void crescente (no* raiz) {
+    if (raiz == NULL) return;
+    else {
+        crescente(raiz->esq);
+        printf("%d\n", (*raiz).codigo_cliente);
+        crescente(raiz->dir);
+    }
 }
