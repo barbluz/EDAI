@@ -46,8 +46,9 @@ void insere_no (arv* A, int cod, int op, int val) {
             else {
                 y->dir = node;
             }
-            atualiza_fb(node);
-            balanceia(node);
+            node->pai = y;
+            atualiza_fb(y);
+            balanceia(y);
         }
         A->tam++;
     }
@@ -84,10 +85,10 @@ void balanceia (no* node) {
                 rot_esq(node);
             } 
             else {
-                rot_dir(node->dir);
-                rot_esq(node);
+                rot_desq(node);
             }
         }
+        atualiza_fb(node);
         balanceia(node->pai);
     }
 }
