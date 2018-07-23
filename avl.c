@@ -2,13 +2,13 @@
 #include "avl.h"
 
 arv* inicializa_arvore() {
-    arv* a = (arv*)malloc(sizeof(arv));
-    a->raiz = NULL;
-    a->tam = 0;
-    return a;
+    arv* A = (arv*)malloc(sizeof(arv));
+    A->raiz = NULL;
+    A->tam = 0;
+    return A;
 }
 
-no* cria_no(int cod, bool op, int val ) {
+no* cria_no (int cod, bool op, int val ) {
     no* node = (no*)malloc(sizeof(no));
     node->codigo_cliente = cod;
     node->qt_op = 1;
@@ -38,16 +38,20 @@ void insere (avl* A, int cod, bool op, int val) {
 
     if (x == NULL) {
         no* node = cria_no(cod, op, val);
-        if (y->chave > cod) {
-            y->esq = node;
+        if (A->raiz == NULL) {
+            A->raiz = node;
         }
         else {
-            y->dir = node;
+            if (y->chave > cod) {
+                y->esq = node;
+            }
+            else {
+                y->dir = node;
+            }
+            atualiza_fb(node);
+            balanceia(node);
         }
-        insere(A, node);
-        atualiza_fb(node);
-        balanceia(node);
-        
+        A->tam++;
     }
 
     else {
@@ -56,7 +60,7 @@ void insere (avl* A, int cod, bool op, int val) {
 }
 
 
-void atualiza_fb(no* node) {
+void atualiza_fb (no* node) {
     if (node == NULL) {
         return;
     } else {
@@ -65,7 +69,7 @@ void atualiza_fb(no* node) {
     }
 }
 
-void balanceia(no* node) {
+void balanceia (no* node) {
     if (node == NULL) {
         return;
     } else {
@@ -88,7 +92,7 @@ void balanceia(no* node) {
     }
 }
 
-void atualiza_valor(no* node, bool op, int val) {
+void atualiza_valor (no* node, bool op, int val) {
     if (op == 0) {
         node->saldo += val;
     } else {
@@ -97,26 +101,23 @@ void atualiza_valor(no* node, bool op, int val) {
     node->qt_op++;
 }
 
-tuple consulta_no (no* raiz, int cod) {
-    tuple result;
-    result.anterior = NULL;
-    result.desejado = NULL;
-
-    if (raiz == NULL) {
-        return result;
+int consulta (avl* A, int cod) {
+    if (A->raiz == NULL) {
+        return 0;
     } else {
-        while (raiz->codigo_cliente != cod) {
-            if (cod < raiz->codigo_cliente) {
-                result.anterior = raiz;
-                consulta_no(raiz->esq, cod);
+        no* node = A->raiz;
+        while (node != NULL && node->codigo_cliente != cod) {
+            if (cod < node->codigo_cliente) {
+                node = node->esq;
             }
             else {
-                result.anterior = raiz;
-                consulta_no(raiz->dir, cod);
+                node = node->dir;
             }
-        }
-        result.desejado = raiz;
-        return result;
+        }   
+        if (node == NULL)
+            return 0;
+        else 
+            return 1;
     }
 }
 
@@ -136,7 +137,6 @@ int altura (no* raiz) {
         return (max(e, d)+1);
     }
 }
-
 
 
 void rot_esq (no* a) {
