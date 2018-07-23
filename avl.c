@@ -1,9 +1,11 @@
-#include <stdio.h>
+    #include <stdio.h>
 #include "avl.h"
 
-void inicializa_arvore(arv* a) {
+arv* inicializa_arvore() {
+    arv* a = (arv*)malloc(sizeof(arv));
     a->raiz = NULL;
-    a.tam = 0;
+    a->tam = 0;
+    return a;
 }
 
 no* cria_no(int cod, bool op, int val ) {
@@ -18,30 +20,41 @@ no* cria_no(int cod, bool op, int val ) {
     return node;
 }
 
-void insere (no* raiz, int cod, bool op, int val) {
-    tuple t = consulta_no(raiz, cod);
-    if (!t.desejado) {
+
+
+void insere (avl* A, int cod, bool op, int val) {
+    no* x, y;
+    x = A->raiz;
+    y = x;
+    while (x != NULL && x->codigo_cliente != cod) {
+        y = x;
+        if (x->chave > cod) {
+            x = x->esq;
+        }
+        else {
+            x = x->dir;
+        }
+    }
+
+    if (x == NULL) {
         no* node = cria_no(cod, op, val);
-        insere_no(&raiz, &node, t);
-        atualiza_fb(&node);
-        balanceia(&node);
-    } else {
-        atualiza_valor(&t.desejado, op, val);
+        if (y->chave > cod) {
+            y->esq = node;
+        }
+        else {
+            y->dir = node;
+        }
+        insere(A, node);
+        atualiza_fb(node);
+        balanceia(node);
+        
+    }
+
+    else {
+        atualiza_valor(x, op, val);
     }
 }
 
-void insere_no (no* raiz, no* node, tuple t) {
-    if(raiz == NULL) {
-        raiz = node;
-        node->pai = t.anterior;
-    } else {
-        if (node->codigo_cliente < raiz->codigo_cliente ) {
-            insere_no(raiz->esq, node);
-        } else {
-            insere_no(raiz->dir, node);
-        }
-    }
-}
 
 void atualiza_fb(no* node) {
     if (node == NULL) {
@@ -53,23 +66,25 @@ void atualiza_fb(no* node) {
 }
 
 void balanceia(no* node) {
-    if (node->pai == NULL) {
+    if (node == NULL) {
         return;
     } else {
-        if (node->pai->fb > 1) {
-            if (node->fb >= 0) {
-                rot_dir(&node->pai, &node);
+        if (node->fb > 1) {
+            if (node->esq->fb >= 0) {
+                rot_dir(node);
             } else {
-                rot_ddir(&node->pai, &node);
+                rot_esq(node->esq);
+                rot_dir(node);
             }
-        } else if (node->pai->fb < -1) {
-            if (node->fb < 0) {
-                rot_esq(&node->pai, &node);
+        } else if (node->fb < -1) {
+            if (node->dir->fb <= 0) {
+                rot_esq(node);
             } else {
-                rot_desq(&node->pai, &node);
+                rot_dir(node->dir);
+                rot_esq(node);
             }
         }
-        balanceia(&node->pai);
+        balanceia(node->pai);
     }
 }
 
@@ -82,7 +97,7 @@ void atualiza_valor(no* node, bool op, int val) {
     node->qt_op++;
 }
 
-tuple consulta_no (no raiz, int cod) {
+tuple consulta_no (no* raiz, int cod) {
     tuple result;
     result.anterior = NULL;
     result.desejado = NULL;
@@ -111,7 +126,7 @@ int max (int a, int b) {
     } else return a;
 }
 
-int altura (no raiz) {
+int altura (no* raiz) {
     int e, d;
     if (raiz == NULL) {
         return 0;
@@ -120,4 +135,34 @@ int altura (no raiz) {
         d = altura(raiz->dir);
         return (max(e, d)+1);
     }
+}
+
+
+
+void rot_esq (no* a) {
+    no* b = a->dir;
+    no* pai = a->pai;
+    if (pai->esq == a) 
+        pai->esq = b;
+    else
+        pai->dir = b;
+    b->pai = pai;
+    b->esq->pai = a;
+    a->dir = b->esq;
+    a->pai = b;
+    b->esq = a;
+}
+
+void rot_dir (no* a) {
+    no* b = a->esq;
+    no* pai = a->pai;
+    if (pai->esq == a) 
+        pai->esq = b;
+    else
+        pai->dir = b;
+    b->pai = pai;
+    b->dir->pai = a;
+    a->esq = b->dir;
+    a->pai = b;
+    b->dir = a;
 }
