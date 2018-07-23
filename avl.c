@@ -1,4 +1,4 @@
-    #include <stdio.h>
+#include <stdio.h>
 #include "avl.h"
 
 arv* inicializa_arvore() {
@@ -20,8 +20,6 @@ no* cria_no (int cod, bool op, int val ) {
     return node;
 }
 
-
-
 void insere (avl* A, int cod, bool op, int val) {
     no* x, y;
     x = A->raiz;
@@ -35,7 +33,6 @@ void insere (avl* A, int cod, bool op, int val) {
             x = x->dir;
         }
     }
-
     if (x == NULL) {
         no* node = cria_no(cod, op, val);
         if (A->raiz == NULL) {
@@ -53,17 +50,16 @@ void insere (avl* A, int cod, bool op, int val) {
         }
         A->tam++;
     }
-
     else {
         atualiza_valor(x, op, val);
     }
 }
 
-
 void atualiza_fb (no* node) {
     if (node == NULL) {
         return;
-    } else {
+    } 
+    else {
         node->fb = (altura(node->esq) - altura(node->dir));
         atualiza_fb(node->pai);
     }
@@ -72,7 +68,8 @@ void atualiza_fb (no* node) {
 void balanceia (no* node) {
     if (node == NULL) {
         return;
-    } else {
+    } 
+    else {
         if (node->fb > 1) {
             if (node->esq->fb >= 0) {
                 rot_dir(node);
@@ -80,10 +77,12 @@ void balanceia (no* node) {
                 rot_esq(node->esq);
                 rot_dir(node);
             }
-        } else if (node->fb < -1) {
+        } 
+        else if (node->fb < -1) {
             if (node->dir->fb <= 0) {
                 rot_esq(node);
-            } else {
+            } 
+            else {
                 rot_dir(node->dir);
                 rot_esq(node);
             }
@@ -95,7 +94,8 @@ void balanceia (no* node) {
 void atualiza_valor (no* node, bool op, int val) {
     if (op == 0) {
         node->saldo += val;
-    } else {
+    } 
+    else {
         node->saldo -= val;
     }
     node->qt_op++;
@@ -131,7 +131,8 @@ int altura (no* raiz) {
     int e, d;
     if (raiz == NULL) {
         return 0;
-    } else {
+    } 
+    else {
         e = altura(raiz->esq);
         d = altura(raiz->dir);
         return (max(e, d)+1);
@@ -142,10 +143,12 @@ int altura (no* raiz) {
 void rot_esq (no* a) {
     no* b = a->dir;
     no* pai = a->pai;
-    if (pai->esq == a) 
+    if (pai->esq == a) {
         pai->esq = b;
-    else
+    }
+    else {
         pai->dir = b;
+    }
     b->pai = pai;
     b->esq->pai = a;
     a->dir = b->esq;
@@ -156,10 +159,12 @@ void rot_esq (no* a) {
 void rot_dir (no* a) {
     no* b = a->esq;
     no* pai = a->pai;
-    if (pai->esq == a) 
+    if (pai->esq == a) {
         pai->esq = b;
-    else
+    }
+    else {
         pai->dir = b;
+    }
     b->pai = pai;
     b->dir->pai = a;
     a->esq = b->dir;
