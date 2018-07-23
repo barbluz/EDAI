@@ -3,34 +3,35 @@
 
 int main() {
     char op;
+    arv* A = inicializa_arvore();
 
     while (scanf("%c", &op), op != 'f') {
         switch (op) {
             case 'i':
-                insere_no();
+                insere(A);
             break;
 
             case 'c':
-                consulta_no();
+                crescente(A->raiz);
             break;
 
             case 'r':
-                remove_no();
+                // remove();
             break;
 
             case 'p':
-                imprime_ordem();
+                // imprime_ordem();
             break;
 
             case 'n':
-                lista_nivel();
+                // lista_nivel();
             break;
 
             case 'h':
-                altura();
+                // altura();
             break;
 
         }
     }
-    termino_entrada();
+    // termino_entrada();
 }
