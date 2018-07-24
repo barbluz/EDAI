@@ -95,7 +95,7 @@ void ranca(arv* A) {
     int codigo_cliente;
     scanf("%d", &codigo_cliente);
     if (consulta_no(A, codigo_cliente)) {
-        no* removido = remove_no(A, A->raiz, codigo_cliente);
+        no* removido = ranca_no(A, A->raiz, codigo_cliente);
         free(removido);
     }
 }
@@ -136,7 +136,7 @@ void percorre_nivel(no* raiz, int target, int qnt) {
 void relatorio_final (arv* A) {
     printf("-+- Inicio relatorio -+-\n%d\n", A->tam);
     while (A->raiz != NULL) {
-        no* removido = remove_no(A, A->raiz, A->raiz->codigo_cliente);
+        no* removido = ranca_no(A, A->raiz, A->raiz->codigo_cliente);
         printf("%d %d %d\n", removido->codigo_cliente, removido->qt_op, removido->saldo);
         free(removido);
     }

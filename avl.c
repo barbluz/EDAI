@@ -224,8 +224,128 @@ no* remove_no (arv* A, no* node, int cod) {
     return node;
 }
 
+no* ranca_no (arv* A, no* node, int k) {
+    if (node == NULL)
+        return NULL;
+    if (node->codigo_cliente < k) {
+        return ranca_no(A, node->dir, k);
+    }
+    else if (node->codigo_cliente > k) {
+        return ranca_no(A, node->esq, k);
+    }
+    else {
+        no* removido = node;
+        //FOLHA
+        if (node->dir == NULL && node->esq == NULL) {
+            if (A->raiz == node) {
+                A->raiz = NULL;
+            }
+            else if (node->pai->dir == node) {
+                node->pai->dir = NULL;
+            }
+            else {
+                node->pai->esq = NULL;
+            }
+            atualiza_fb(node->pai);
+            balanceia(A, node->pai);
+        }
+        //UM FILHO NA ESQ
+        else if (node->dir == NULL) {
+            if (A->raiz == node) {
+                A->raiz = node->esq;
+            }
+            else if (node->pai->dir == node) {
+                node->pai->dir = node->esq;
+            }
+            else {
+                node->pai->esq = node->esq;
+            }
+            node->esq->pai = node->pai;
+            atualiza_fb(node->esq);
+            balanceia(A, node->esq);
+        }
+        //UM FILHO NA DIR
+        else if (node->esq == NULL) {
+            if (A->raiz == node) {
+                A->raiz = node->dir;
+            }
+            else if (node->pai->dir == node) {
+                node->pai->dir = node->dir;
+            }
+            else {
+                node->pai->esq = node->dir;
+            }
+            node->dir->pai = node->pai;
+            atualiza_fb(node->dir);
+            balanceia(A, node->dir);
+        }
+        //DOIS FILHOS
+        else {
+            no* suc = sucessor(node);
+            no* aux = suc->pai;
+            if (aux == node)
+                aux = suc;
+            //DOIS FILHOS E RAIZ
+            if (A->raiz == node) {
+                A->raiz = suc;
+                if (node->dir == suc) {
+                    suc->pai = NULL;
+                }
+                else {
+                    if (suc->dir) suc->dir->pai = suc->pai;
+                    suc->pai->esq = suc->dir;
+                }
+            }
+            //DOIS FILHOS E NAO RAIZ
+            else {
+                printf("299\n");
+                if (node->pai->dir == node) {
+                    node->pai->dir = suc;
+                    printf("302\n");
+                    if (node->dir != suc) {
+                        suc->pai->esq = suc->dir;
+                        if (suc->dir) suc->dir->pai = suc->pai;
+                        node->pai->dir = suc->dir;
+                    }
+                    printf("308\n");
+                    suc->pai = node->pai;
+                }
+                else {
+                    printf("312\n");
+                    node->pai->esq = suc;
+                    if (node->dir != suc) {
+                        printf("315\n");
+                        suc->pai->esq = suc->dir;
+                        if (suc->dir) suc->dir->pai = suc->pai;
+                        node->pai->dir = suc->dir;
+                        printf("319\n");
+                    }
+                    printf("321\n");
+                    suc->pai = node->pai;
+                    printf("323\n");
+                }
+            }
+            
+            
+            suc->esq = node->esq;
+                    printf("329\n");
+            if (suc->esq) suc->esq->pai = suc;
+                    printf("331\n");
+            suc->dir = node->dir;
+                    printf("333\n");
+            if (suc->dir) suc->dir->pai = suc;
+                    printf("335\n");
+            atualiza_fb(aux);
+                    printf("337\n");
+            balanceia(A, aux);
+                    printf("<339></339>\n");
+        }
+        return removido;
+    }
+}
+
 no* sucessor (no* node) {
-    if (node == NULL) {
+    if (node == NULL && node->dir != NULL) {
         return NULL;
     }
     no* aux = node->dir;
