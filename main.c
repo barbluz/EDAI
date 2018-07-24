@@ -1,25 +1,28 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "avl.h"
+void insere (arv* A);
 
-void insere(arv* A);
+void consulta (arv* A);
 
-void consulta(arv* A);
+void ranca (arv* A);
 
-void ranca(arv* A);
+void imprime_ordem (arv* A);
 
-void imprime_ordem(arv* A);
+void imprime_nivel (arv* A);
 
-void imprime_nivel(arv* A);
+void imprime_altura (arv* A);
 
-void imprime_altura(arv* A);
+void crescente (no* raiz);
 
-void crescente(no* raiz);
+void decrescente (no* raiz);
 
-void decrescente(no* raiz);
+void percorre_nivel (no* raiz, int target, int qnt);
 
-void percorre_nivel(no* raiz, int target, int qnt);
+void relatorio_final (arv* A);
 
-int main() {
+int main () {
     char op;
     arv* A = inicializa_arvore();
 
@@ -51,7 +54,7 @@ int main() {
 
         }
     }
-    // termino_entrada();
+    relatorio_final(A);
 }
 
 void insere(arv* A) {
@@ -92,7 +95,8 @@ void ranca(arv* A) {
     int codigo_cliente;
     scanf("%d", &codigo_cliente);
     if (consulta_no(A, codigo_cliente)) {
-        remove_no(A, A->raiz, codigo_cliente);
+        no* removido = remove_no(A, A->raiz, codigo_cliente);
+        free(removido);
     }
 }
 
@@ -128,4 +132,13 @@ void percorre_nivel(no* raiz, int target, int qnt) {
         percorre_nivel(raiz->dir, target, qnt+1);
     }
 } 
-    
+
+void relatorio_final (arv* A) {
+    printf("-+- Inicio relatorio -+-\n%d\n", A->tam);
+    while (A->raiz != NULL) {
+        no* removido = remove_no(A, A->raiz, A->raiz->codigo_cliente);
+        printf("%d %d %d\n", removido->codigo_cliente, removido->qt_op, removido->saldo);
+        free(removido);
+    }
+    printf("-+- Fim relatorio -+-\n");
+}
