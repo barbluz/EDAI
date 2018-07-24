@@ -22,7 +22,7 @@ void insere_no (arv* A, int cod, int op, int val);
 
 void atualiza_fb (no* node);
 
-void balanceia (no* node);
+void balanceia (arv* A, no* node);
 
 void atualiza_valor (no* node, int op, int val);
 
@@ -32,9 +32,9 @@ int max (int a, int b);
 
 int altura (no* raiz);
 
-void rot_esq (no* a);
+void rot_esq (arv* A, no* node);
 
-void rot_dir (no* a);
+void rot_dir (arv* A, no* node);
 
 void crescente (no* raiz);
 

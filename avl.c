@@ -48,7 +48,7 @@ void insere_no (arv* A, int cod, int op, int val) {
             }
             node->pai = y;
             atualiza_fb(y);
-            balanceia(y);
+            balanceia(A, y);
         }
         A->tam++;
     }
@@ -67,29 +67,30 @@ void atualiza_fb (no* node) {
     }
 }
 
-void balanceia (no* node) {
+void balanceia (arv* A, no* node) {
     if (node == NULL) {
         return;
     } 
     else {
         if (node->fb > 1) {
             if (node->esq->fb >= 0) {
-                rot_dir(node);
+                rot_dir(A, node);
             } else {
-                rot_esq(node->esq);
-                rot_dir(node);
+                rot_esq(A, node->esq);
+                rot_dir(A, node);
             }
         } 
         else if (node->fb < -1) {
             if (node->dir->fb <= 0) {
-                rot_esq(node);
+                rot_esq(A, node);
             } 
             else {
-                rot_desq(node);
+                rot_dir(A, node);
+                rot_esq(A, node);
             }
         }
         atualiza_fb(node);
-        balanceia(node->pai);
+        balanceia(A, node->pai);
     }
 }
 
@@ -142,43 +143,47 @@ int altura (no* raiz) {
 }
 
 
-void rot_esq (no* a) {
-    no* b = a->dir;
-    no* pai = a->pai;
-    if (pai->esq == a) {
-        pai->esq = b;
+void rot_esq (arv* A, no* node){ //roAação à esquerda
+    no* aux = node->dir;
+    node->dir = aux->esq;
+    if(aux->esq != NULL){
+        aux->esq->pai = node;
     }
-    else {
-        pai->dir = b;
+    aux->esq = node;
+    aux->pai = node->pai;
+    if(A->raiz == node){
+        A->raiz = aux;
     }
-    b->pai = pai;
-    b->esq->pai = a;
-    a->dir = b->esq;
-    a->pai = b;
-    b->esq = a;
+    else{
+        if(node->pai->dir == node){
+            node->pai->dir = aux;
+        }
+        else {
+            node->pai->esq = aux;
+        }
+    }
+    node->pai = aux;
 }
 
-void rot_dir (no* a) {
-    no* b = a->esq;
-    no* pai = a->pai;
-    if (pai->esq == a) {
-        pai->esq = b;
-    }
-    else {
-        pai->dir = b;
-    }
-    b->pai = pai;
-    b->dir->pai = a;
-    a->esq = b->dir;
-    a->pai = b;
-    b->dir = a;
-}
 
-void crescente (no* raiz) {
-    if (raiz == NULL) return;
-    else {
-        crescente(raiz->esq);
-        printf("%d\n", (*raiz).codigo_cliente);
-        crescente(raiz->dir);
+void rot_dir (arv* A, no* node){ //roAação à direiAa
+    no* aux = node->esq;
+    node->esq = aux->dir;
+    if(aux->dir != NULL){
+        aux->dir->pai = node;
     }
+    aux->dir = node;
+    aux->pai = node->pai;
+    if(A->raiz == node){
+        A->raiz = aux;
+    }
+    else{
+        if(node->pai->dir == node){
+            node->pai->dir = aux;
+        }
+        else {
+            node->pai->esq = aux;
+        }
+    }
+    node->pai = aux;
 }
