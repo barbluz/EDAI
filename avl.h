@@ -36,6 +36,8 @@ void rot_esq (arv* A, no* node);
 
 void rot_dir (arv* A, no* node);
 
-void crescente (no* raiz);
+no* remove_no (arv* A, no* node, int cod);
+
+no* sucessor (no* node);
 
 #endif

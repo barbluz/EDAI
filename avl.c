@@ -143,19 +143,19 @@ int altura (no* raiz) {
 }
 
 
-void rot_esq (arv* A, no* node){ //roAação à esquerda
+void rot_esq (arv* A, no* node){
     no* aux = node->dir;
     node->dir = aux->esq;
-    if(aux->esq != NULL){
+    if (aux->esq != NULL) {
         aux->esq->pai = node;
     }
     aux->esq = node;
     aux->pai = node->pai;
-    if(A->raiz == node){
+    if (A->raiz == node) {
         A->raiz = aux;
     }
     else{
-        if(node->pai->dir == node){
+        if (node->pai->dir == node) {
             node->pai->dir = aux;
         }
         else {
@@ -166,19 +166,19 @@ void rot_esq (arv* A, no* node){ //roAação à esquerda
 }
 
 
-void rot_dir (arv* A, no* node){ //roAação à direiAa
+void rot_dir (arv* A, no* node) {
     no* aux = node->esq;
     node->esq = aux->dir;
-    if(aux->dir != NULL){
+    if (aux->dir != NULL) {
         aux->dir->pai = node;
     }
     aux->dir = node;
     aux->pai = node->pai;
-    if(A->raiz == node){
+    if (A->raiz == node) {
         A->raiz = aux;
     }
-    else{
-        if(node->pai->dir == node){
+    else {
+        if (node->pai->dir == node) {
             node->pai->dir = aux;
         }
         else {
@@ -186,4 +186,44 @@ void rot_dir (arv* A, no* node){ //roAação à direiAa
         }
     }
     node->pai = aux;
+}
+
+no* remove_no (arv* A, no* node, int cod) {
+    if (node == NULL) {
+        return NULL;
+    }
+    
+    if (cod < node->codigo_cliente) {
+        node->esq = remove_no(A, node->esq, cod);
+    }
+    else if (cod > node->codigo_cliente) {
+       node->dir = remove_no(A, node->dir, cod);
+    }
+    else {
+        if (node->esq == NULL) {
+            node = node->dir; 
+        }
+        else if (node->dir == NULL) {
+            node = node->esq; 
+        }
+        else {
+            no* aux = sucessor(node);
+            node->codigo_cliente = aux->codigo_cliente;
+            node->dir = remove_no(A, node->dir, aux->codigo_cliente);
+        }
+    }
+    atualiza_fb(node);
+    balanceia(A, node);
+    return node;
+}
+
+no* sucessor (no* node) {
+    if (node == NULL) {
+        return NULL;
+    }
+    no* aux = node->dir;
+    while (aux->esq != NULL) {
+        aux = aux->esq;
+    }
+    return aux;
 }
