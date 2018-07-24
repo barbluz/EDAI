@@ -108,7 +108,7 @@ void crescente(no* raiz) {
     if (raiz == NULL) return;
     else {
         crescente(raiz->esq);
-        printf("%d\n", raiz->codigo_cliente);
+        printf("%d %d %d\n", raiz->codigo_cliente, raiz->qt_op, raiz->saldo);
         crescente(raiz->dir);
     }
 }
@@ -117,7 +117,7 @@ void decrescente(no* raiz) {
     if (raiz == NULL) return;
     else {
         decrescente(raiz->dir);
-        printf("%d\n", raiz->codigo_cliente);
+        printf("%d %d %d\n", raiz->codigo_cliente, raiz->qt_op, raiz->saldo);
         decrescente(raiz->esq);
     }
 }
