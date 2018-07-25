@@ -188,42 +188,6 @@ void rot_dir (arv* A, no* node) {
     node->pai = aux;
 }
 
-no* remove_no (arv* A, no* node, int cod) {
-    if (node == NULL) {
-        return NULL;
-    }
-    
-    if (cod < node->codigo_cliente) {
-        node->esq = remove_no(A, node->esq, cod);
-    }
-    else if (cod > node->codigo_cliente) {
-       node->dir = remove_no(A, node->dir, cod);
-    }
-    else {
-        A->tam--;
-        if (node->esq == NULL) {
-            if (A->raiz == node)
-                A->raiz = node->dir;
-            node = node->dir; 
-        }
-        else if (node->dir == NULL) {
-            if (A->raiz == node)
-                A->raiz = node->esq;
-            node = node->esq; 
-        }
-        else {
-            no* aux = sucessor(node);
-            node->codigo_cliente = aux->codigo_cliente;
-            node->qt_op = aux->qt_op;
-            node->saldo = aux->saldo;
-            node->dir = remove_no(A, node->dir, aux->codigo_cliente);
-        }
-    }
-    atualiza_fb(node);
-    balanceia(A, node);
-    return node;
-}
-
 no* ranca_no (arv* A, no* node, int k) {
     if (node == NULL)
         return NULL;
