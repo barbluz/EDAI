@@ -20,8 +20,6 @@ no* cria_no (int cod, int val );
 
 void insere_no (arv* A, int cod, int op, int val);
 
-void atualiza_fb (no* node);
-
 void balanceia (arv* A, no* node);
 
 void atualiza_valor (no* node, int op, int val);

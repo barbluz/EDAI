@@ -58,7 +58,6 @@ void insere_no (arv* A, int cod, int op, int val) {
                 y->dir = node;
             }
             node->pai = y;
-            atualiza_fb(y);
             balanceia(A, y);
         }
         A->tam++;
@@ -69,31 +68,24 @@ void insere_no (arv* A, int cod, int op, int val) {
     }
 }
 
-void atualiza_fb (no* node) {
-    if (node == NULL) {
-        return;
-    } 
-    else {
-        node->fb = (altura(node->esq) - altura(node->dir));
-        atualiza_fb(node->pai);
-    }
-}
-
 void balanceia (arv* A, no* node) {
     if (node == NULL) {
         return;
     } 
     else {
-        if (node->fb == 2) {
-            if (node->esq->fb != -1) {
+        int fb = altura(node->esq) - altura(node->dir);
+        if (fb == 2) {
+            int fbfilho = altura(node->esq->esq) - altura(node->esq->dir);
+            if (fbfilho != -1) {
                 rot_dir(A, node);
             } else {
                 rot_esq(A, node->esq);
                 rot_dir(A, node);
             }
         } 
-        else if (node->fb == -2) {
-            if (node->dir->fb != 1) {
+        else if (fb == -2) {
+            int fbfilho = altura(node->dir->esq) - altura(node->dir->dir);
+            if (fbfilho != 1) {
                 rot_esq(A, node);
             } 
             else {
@@ -101,7 +93,6 @@ void balanceia (arv* A, no* node) {
                 rot_esq(A, node);
             }
         }
-        atualiza_fb(node);
         balanceia(A, node->pai);
     }
 }
@@ -154,7 +145,6 @@ int altura (no* raiz) {
     }
 }
 
-
 void rot_esq (arv* A, no* node){
     no* aux = node->dir;
     node->dir = aux->esq;
@@ -176,7 +166,6 @@ void rot_esq (arv* A, no* node){
     }
     node->pai = aux;
 }
-
 
 void rot_dir (arv* A, no* node) {
     no* aux = node->esq;
@@ -210,6 +199,7 @@ no* ranca_no (arv* A, no* node, int k) {
         return ranca_no(A, node->esq, k);
     }
     else {
+        A->tam--;
         no* removido = node;
         //FOLHA
         if (node->dir == NULL && node->esq == NULL) {
@@ -222,7 +212,6 @@ no* ranca_no (arv* A, no* node, int k) {
             else {
                 node->pai->esq = NULL;
             }
-            atualiza_fb(node->pai);
             balanceia(A, node->pai);
         }
         //UM FILHO NA ESQ
@@ -239,7 +228,6 @@ no* ranca_no (arv* A, no* node, int k) {
                 node->pai->esq = node->esq;
                 node->esq->pai = node->pai;
             }
-            atualiza_fb(node->esq);
             balanceia(A, node->esq);
         }
         //UM FILHO NA DIR
@@ -256,7 +244,6 @@ no* ranca_no (arv* A, no* node, int k) {
                 node->pai->esq = node->dir;
                 node->dir->pai = node->pai;
             }
-            atualiza_fb(node->dir);
             balanceia(A, node->dir);
         }
         //DOIS FILHOS
@@ -299,14 +286,12 @@ no* ranca_no (arv* A, no* node, int k) {
                     suc->pai = node->pai;
                 }
             }
-            
             suc->esq = node->esq;
             if (suc->esq) suc->esq->pai = suc;
             if (node->dir != suc) {
                 suc->dir = node->dir;
                 if (suc->dir) suc->dir->pai = suc;
             }
-            atualiza_fb(aux);
             balanceia(A, aux);
         }
         return removido;

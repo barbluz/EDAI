@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "avl.h"
 
-
 void insere (arv* A);
 
 void consulta (arv* A);
@@ -52,7 +51,6 @@ int main () {
             case 'h':
                 imprime_altura(A);
             break;
-
         }
     }
     relatorio_final(A);
@@ -83,12 +81,12 @@ void imprime_ordem(arv* A) {
         decrescente(A->raiz);
     }
 }
+
 void imprime_nivel(arv* A) {
     int target;
     scanf("%d", &target);
     if (altura(A->raiz) >= target) {
         percorre_nivel(A->raiz, target, 1);
-        printf("\n");
     }
 }
 
@@ -126,7 +124,7 @@ void decrescente(no* raiz) {
 void percorre_nivel(no* raiz, int target, int qnt) {
     if (raiz == NULL) return;
     else if (target == qnt) {
-        printf("%d ", raiz->codigo_cliente);
+        printf("%d\n", raiz->codigo_cliente);
     }
     else {
         percorre_nivel(raiz->esq, target, qnt+1);
