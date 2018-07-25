@@ -4,13 +4,21 @@
 
 arv* inicializa_arvore() {
     arv* A = (arv*)malloc(sizeof(arv));
+    if (A == NULL) {
+        printf("MEMORIA CHEIA\n");
+        return NULL;
+    }
     A->raiz = NULL;
     A->tam = 0;
     return A;
 }
 
-no* cria_no (int cod, int val ) {
+no* cria_no (int cod, int val) {
     no* node = (no*)malloc(sizeof(no));
+    if (node == NULL) {
+        printf("MEMORIA CHEIA\n");
+        return NULL;
+    }
     node->codigo_cliente = cod;
     node->qt_op = 1;
     node->saldo = val;
@@ -25,6 +33,8 @@ void insere_no (arv* A, int cod, int op, int val) {
     no *x, *y;
     x = A->raiz;
     y = x;
+    if (op) val *= -1;
+    //PROCURA NÓ
     while (x != NULL && x->codigo_cliente != cod) {
         y = x;
         if (x->codigo_cliente > cod) {
@@ -34,6 +44,7 @@ void insere_no (arv* A, int cod, int op, int val) {
             x = x->dir;
         }
     }
+    //NAO EXISTE
     if (x == NULL) {
         no* node = cria_no(cod, val);
         if (A->raiz == NULL) {
@@ -52,6 +63,7 @@ void insere_no (arv* A, int cod, int op, int val) {
         }
         A->tam++;
     }
+    //EXISTE
     else {
         atualiza_valor(x, op, val);
     }
@@ -270,7 +282,7 @@ no* ranca_no (arv* A, no* node, int k) {
                     node->pai->dir = suc;
                     if (node->dir != suc) {
                         suc->pai->esq = suc->dir;
-                        if (suc->dir) {
+                        if (suc->dir != NULL) {
                             suc->dir->pai = suc->pai;
                         }
                         node->pai->dir = suc->dir;
