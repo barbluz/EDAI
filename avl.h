@@ -38,6 +38,8 @@ void rot_dir (arv* A, no* node);
 
 no* remove_no (arv* A, no* node, int cod);
 
+no* ranca_no (arv* A, no* node, int k);
+
 no* sucessor (no* node);
 
 #endif
