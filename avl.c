@@ -60,7 +60,7 @@ void insere_no (arv* A, int cod, int op, int val) {
                 y->dir = node;
             }
             node->pai = y;
-            balanceia(A, y);
+            balanceia(A, node);
         }
         A->tam++;
     }
@@ -76,30 +76,22 @@ void balanceia (arv* A, no* node) {
     } 
     else {
         int fb = altura(node->esq) - altura(node->dir);
-        //printf("pegou altura fb: %d\n", fb);
-
-        if (fb == 2) {
+        if (fb >= 2) {
             int fbfilho = altura(node->esq->esq) - altura(node->esq->dir);
-            if (fbfilho != -1) {
+            if (fbfilho > -1) {
                 rot_dir(A, node);
             } else {
                 rot_esq(A, node->esq);
                 rot_dir(A, node);
             }
         } 
-        else if (fb == -2) {
-            //printf("aqui -2 \n");
-
+        else if (fb <= -2) {
             int fbfilho = altura(node->dir->esq) - altura(node->dir->dir);
-            //printf("fb filho: %d\n", fbfilho);
-
-            if (fbfilho != 1) {
+            if (fbfilho < 1) {
                 rot_esq(A, node);
             } 
             else {
-                //printf("rotação dupla direita\n");
                 rot_dir(A, node->dir);
-                //printf("rotou um\n");
                 rot_esq(A, node);
             }
         }
@@ -277,7 +269,6 @@ no* ranca_no (arv* A, no* node, int k) {
                         if (suc->dir != NULL) {
                             suc->dir->pai = suc->pai;
                         }
-                        node->pai->dir = suc->dir;
                     }
                     suc->pai = node->pai;
                 }
@@ -286,7 +277,6 @@ no* ranca_no (arv* A, no* node, int k) {
                     if (node->dir != suc) {
                         suc->pai->esq = suc->dir;
                         if (suc->dir) suc->dir->pai = suc->pai;
-                        node->pai->dir = suc->dir;
                     }
                     suc->pai = node->pai;
                 }

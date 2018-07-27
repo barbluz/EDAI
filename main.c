@@ -50,7 +50,7 @@ int main () {
 
             case 'h':
                 imprime_altura(A);
-            break;
+            break; 
         }
     }
     relatorio_final(A);
