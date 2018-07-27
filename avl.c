@@ -46,7 +46,9 @@ void insere_no (arv* A, int cod, int op, int val) {
     }
     //NAO EXISTE
     if (x == NULL) {
+
         no* node = cria_no(cod, val);
+
         if (A->raiz == NULL) {
             A->raiz = node;
         }
@@ -74,6 +76,8 @@ void balanceia (arv* A, no* node) {
     } 
     else {
         int fb = altura(node->esq) - altura(node->dir);
+        //printf("pegou altura fb: %d\n", fb);
+
         if (fb == 2) {
             int fbfilho = altura(node->esq->esq) - altura(node->esq->dir);
             if (fbfilho != -1) {
@@ -84,12 +88,18 @@ void balanceia (arv* A, no* node) {
             }
         } 
         else if (fb == -2) {
+            //printf("aqui -2 \n");
+
             int fbfilho = altura(node->dir->esq) - altura(node->dir->dir);
+            //printf("fb filho: %d\n", fbfilho);
+
             if (fbfilho != 1) {
                 rot_esq(A, node);
             } 
             else {
-                rot_dir(A, node);
+                //printf("rotação dupla direita\n");
+                rot_dir(A, node->dir);
+                //printf("rotou um\n");
                 rot_esq(A, node);
             }
         }
