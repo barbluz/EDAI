@@ -4,24 +4,74 @@
 #include <stdlib.h>
 #include "avl.h"
 
+/*
+ * Função insere:
+ * Insere um novo nó ou atualiza o campo "saldo" de um nó existente.
+ *
+ */
 void insere (arv* A);
 
+/*
+ * Função consulta:
+ * Verifica a existência de um nó.
+ *
+ */
 void consulta (arv* A);
 
+/*
+ * Função ranca:
+ * Remove um nó da árvore.
+ *
+ */
 void ranca (arv* A);
 
+/*
+ * Função imprime_ordem:
+ * Lista as chaves dos nós em ordem crescente [se segundo parâmetro for 'c'] ou decrescente [se segundo parâmetro for 'd'].
+ *
+ */
 void imprime_ordem (arv* A);
 
+/*
+ * Função imprime_nivel:
+ * Lista as chaves dos nós da árvore que tiverem nível igual ao número fornecido.
+ *
+ */
 void imprime_nivel (arv* A);
 
+/*
+ * Função imprime_altura:
+ * Informa a altura da árvore.
+ *
+ */
 void imprime_altura (arv* A);
 
+/*
+ * Função crescente:
+ * Lista as chaves dos nós da árvore em ordem crescente.
+ *
+ */
 void crescente (no* raiz);
 
+/*
+ * Função decrescente:
+ * Lista as chaves dos nós da árvore em ordem decrescente.
+ *
+ */
 void decrescente (no* raiz);
 
+/*
+ * Função percorre_nivel:
+ * Percorre o nível indicado.
+ *
+ */
 void percorre_nivel (no* raiz, int target, int qnt);
 
+/*
+ * Função relatorio_final:
+ * Imprime relatório final com: quantidade de distintos nós na árvore e, para cada nó, os campos "codigo_cliente", "qnt_op" e "saldo".
+ *
+ */
 void relatorio_final (arv* A);
 
 int main () {
