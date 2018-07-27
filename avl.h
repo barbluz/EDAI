@@ -1,3 +1,5 @@
+// Desenvolvido por Bárbara Gabriele Lima Luz Santos, Micael Oliveira Mota e Rafael Correa Nagy
+
 #ifndef avl
 #define avl
 

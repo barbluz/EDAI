@@ -1,3 +1,5 @@
+// Desenvolvido por Bárbara Gabriele Lima Luz Santos, Micael Oliveira Mota e Rafael Correa Nagy
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "avl.h"
@@ -72,7 +74,7 @@ void insere_no (arv* A, int cod, int op, int val) {
 void balanceia (arv* A, no* node) {
     if (node == NULL) {
         return;
-    } 
+    }
     else {
         int fb = altura(node->esq) - altura(node->dir);
         if (fb >= 2) {
@@ -83,12 +85,12 @@ void balanceia (arv* A, no* node) {
                 rot_esq(A, node->esq);
                 rot_dir(A, node);
             }
-        } 
+        }
         else if (fb <= -2) {
             int fbfilho = altura(node->dir->esq) - altura(node->dir->dir);
             if (fbfilho < 1) {
                 rot_esq(A, node);
-            } 
+            }
             else {
                 rot_dir(A, node->dir);
                 rot_esq(A, node);
@@ -115,10 +117,10 @@ int consulta_no (arv* A, int cod) {
             else {
                 node = node->dir;
             }
-        }   
+        }
         if (node == NULL)
             return 0;
-        else 
+        else
             return 1;
     }
 }
@@ -133,7 +135,7 @@ int altura (no* raiz) {
     int e, d;
     if (raiz == NULL) {
         return 0;
-    } 
+    }
     else {
         e = altura(raiz->esq);
         d = altura(raiz->dir);
@@ -252,11 +254,11 @@ no* ranca_no (arv* A, no* node, int k) {
             if (A->raiz == node) {
                 A->raiz = suc;
                 if (node->dir != suc) {
-                    if (suc->dir != NULL) { 
+                    if (suc->dir != NULL) {
                         suc->dir->pai = suc->pai;
                     }
                     suc->pai->esq = suc->dir;
-                } 
+                }
                 suc->pai = NULL;
             }
             //DOIS FILHOS E NAO RAIZ

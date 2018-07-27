@@ -1,3 +1,5 @@
+// Desenvolvido por Bárbara Gabriele Lima Luz Santos, Micael Oliveira Mota e Rafael Correa Nagy
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "avl.h"
@@ -50,7 +52,7 @@ int main () {
 
             case 'h':
                 imprime_altura(A);
-            break; 
+            break;
         }
     }
     relatorio_final(A);
@@ -131,7 +133,7 @@ void percorre_nivel(no* raiz, int target, int qnt) {
         percorre_nivel(raiz->esq, target, qnt+1);
         percorre_nivel(raiz->dir, target, qnt+1);
     }
-} 
+}
 
 void relatorio_final (arv* A) {
     printf("-+- Inicio relatorio -+-\n%d\n", A->tam);
