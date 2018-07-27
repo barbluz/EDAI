@@ -5,7 +5,6 @@ typedef struct no {
     int codigo_cliente;
     int qt_op;
     int saldo;
-    int fb;
     struct no *esq, *dir, *pai;
 } no;
 
@@ -16,7 +15,7 @@ typedef struct arv {
 
 arv* inicializa_arvore();
 
-no* cria_no (int cod, int val );
+no* cria_no (int cod, int val);
 
 void insere_no (arv* A, int cod, int op, int val);
 

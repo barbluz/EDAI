@@ -54,6 +54,7 @@ int main () {
         }
     }
     relatorio_final(A);
+    free(A);
 }
 
 void insere(arv* A) {
