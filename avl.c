@@ -22,7 +22,6 @@ no* cria_no (int cod, int val) {
     node->codigo_cliente = cod;
     node->qt_op = 1;
     node->saldo = val;
-    node->fb = 0;
     node->esq = NULL;
     node->dir = NULL;
     node->pai = NULL;
@@ -46,7 +45,9 @@ void insere_no (arv* A, int cod, int op, int val) {
     }
     //NAO EXISTE
     if (x == NULL) {
+
         no* node = cria_no(cod, val);
+
         if (A->raiz == NULL) {
             A->raiz = node;
         }
@@ -58,13 +59,13 @@ void insere_no (arv* A, int cod, int op, int val) {
                 y->dir = node;
             }
             node->pai = y;
-            balanceia(A, y);
+            balanceia(A, node);
         }
         A->tam++;
     }
     //EXISTE
     else {
-        atualiza_valor(x, op, val);
+        atualiza_valor(x, val);
     }
 }
 
@@ -74,22 +75,22 @@ void balanceia (arv* A, no* node) {
     } 
     else {
         int fb = altura(node->esq) - altura(node->dir);
-        if (fb == 2) {
+        if (fb >= 2) {
             int fbfilho = altura(node->esq->esq) - altura(node->esq->dir);
-            if (fbfilho != -1) {
+            if (fbfilho > -1) {
                 rot_dir(A, node);
             } else {
                 rot_esq(A, node->esq);
                 rot_dir(A, node);
             }
         } 
-        else if (fb == -2) {
+        else if (fb <= -2) {
             int fbfilho = altura(node->dir->esq) - altura(node->dir->dir);
-            if (fbfilho != 1) {
+            if (fbfilho < 1) {
                 rot_esq(A, node);
             } 
             else {
-                rot_dir(A, node);
+                rot_dir(A, node->dir);
                 rot_esq(A, node);
             }
         }
@@ -97,13 +98,8 @@ void balanceia (arv* A, no* node) {
     }
 }
 
-void atualiza_valor (no* node, int op, int val) {
-    if (op == 0) {
-        node->saldo += val;
-    } 
-    else {
-        node->saldo -= val;
-    }
+void atualiza_valor (no* node, int val) {
+    node->saldo += val;
     node->qt_op++;
 }
 
@@ -272,7 +268,6 @@ no* ranca_no (arv* A, no* node, int k) {
                         if (suc->dir != NULL) {
                             suc->dir->pai = suc->pai;
                         }
-                        node->pai->dir = suc->dir;
                     }
                     suc->pai = node->pai;
                 }
@@ -281,7 +276,6 @@ no* ranca_no (arv* A, no* node, int k) {
                     if (node->dir != suc) {
                         suc->pai->esq = suc->dir;
                         if (suc->dir) suc->dir->pai = suc->pai;
-                        node->pai->dir = suc->dir;
                     }
                     suc->pai = node->pai;
                 }

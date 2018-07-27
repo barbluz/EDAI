@@ -67,3 +67,4 @@ Algumas restrições para a implementação das estruturas de dados do sistema:
 - O conjunto: TAD + arquivo principal deve gerenciar a memória de maneira ótima, i.e., tudo que for alocado deve ser desalocado;
 
 - No arquivo principal, cada operação de entrada possível deve ter uma função para chamar as funções do TAD e formatar sua saída.
+
