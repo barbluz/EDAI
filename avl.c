@@ -22,7 +22,6 @@ no* cria_no (int cod, int val) {
     node->codigo_cliente = cod;
     node->qt_op = 1;
     node->saldo = val;
-    node->fb = 0;
     node->esq = NULL;
     node->dir = NULL;
     node->pai = NULL;
