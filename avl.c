@@ -66,7 +66,7 @@ void insere_no (arv* A, int cod, int op, int val) {
     }
     //EXISTE
     else {
-        atualiza_valor(x, op, val);
+        atualiza_valor(x, val);
     }
 }
 
@@ -107,13 +107,8 @@ void balanceia (arv* A, no* node) {
     }
 }
 
-void atualiza_valor (no* node, int op, int val) {
-    if (op == 0) {
-        node->saldo += val;
-    } 
-    else {
-        node->saldo -= val;
-    }
+void atualiza_valor (no* node, int val) {
+    node->saldo += val;
     node->qt_op++;
 }
 

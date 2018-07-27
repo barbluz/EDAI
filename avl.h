@@ -22,7 +22,7 @@ void insere_no (arv* A, int cod, int op, int val);
 
 void balanceia (arv* A, no* node);
 
-void atualiza_valor (no* node, int op, int val);
+void atualiza_valor (no* node, int val);
 
 int consulta_no (arv* A, int cod);
 
